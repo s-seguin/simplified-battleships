@@ -1,0 +1,19 @@
+{
+  "name": "simplified-battleships",
+  "version": "1.0.0",
+  "description": "ambyint full stack coding challenge: implement a simplified version of battleships. See instructions.md.",
+  "main": "start.js",
+  "module": "src/game.js",
+  "scripts": {
+    "start": "node start.js",
+    "test": "jest"
+  },
+  "author": "Stuart Seguin",
+  "license": "ISC",
+  "dependencies": {
+    "esm": "^3.2.25"
+  },
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
+}
