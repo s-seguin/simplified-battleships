@@ -2,4 +2,5 @@
 const esmImport = require('esm')(module);
 
 // import the individual test like this:
-/* const sumTest = esmImport('./sum.assert.js'); */
+const playerTest = esmImport('./player.assert.js');
+const shipTest = esmImport('./ship.assert.js');
