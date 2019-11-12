@@ -5,10 +5,10 @@ Stuart Seguin's submission for Ambyint's full stack coding challenge.
 I implemented the Simple Battleships Challenge, including the bonus features. Each player choses a name and then places two ships on the board. The players then take turns trying to guess where their opponents ships are and sink them. First player to sink both of the opponents ships wins.
 
 Game Board tiles:
-• `-` : empty cell
-• `S` : occupied by a ship
-• `H` : marks a hit ship
-• `X` : marks a missed shot
+- `-` : empty cell
+- `S` : occupied by a ship
+- `H` : marks a hit ship
+- `X` : marks a missed shot
 
 ## How to Play
 
