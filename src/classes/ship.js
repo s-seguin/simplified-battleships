@@ -23,6 +23,11 @@ const calcLengthFromCoordinates = (start, end) => {
     throw new Error('The ship has not been placed horizontally or vertically');
 };
 
+/**
+ * A simple swapping function
+ * @param {*} start
+ * @param {*} end
+ */
 const swapStartAndEndCells = (start, end) => {
   let c = start;
   start = end;

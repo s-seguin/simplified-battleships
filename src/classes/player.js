@@ -2,10 +2,14 @@ import Ship from './ship';
 import { NUM_ROWS, NUM_COL, COLUMN_MAPPING } from '../constants';
 import { splitCellCoordinates } from '../helpers';
 
+/**
+ * Fill the board with -1
+ */
 const instantiateBoard = () => {
   let board = new Array(NUM_ROWS);
-
-  for (let i = 0; i < board.length; i++) board[i] = new Array(NUM_COL);
+  for (let i = 0; i < board.length; i++) {
+    board[i] = Array(NUM_COL).fill(-1);
+  }
 
   return board;
 };
@@ -15,8 +19,8 @@ const instantiateBoard = () => {
  * @param {*} cell
  */
 const getCellRepresentation = cell => {
-  if (!cell && cell !== 0) return '-';
-  else if (typeof cell === 'number') return 'S';
+  if (cell === -1) return '-';
+  else if (typeof cell === 'number' && cell !== -1) return 'S';
   else return cell;
 };
 
@@ -29,17 +33,34 @@ class Player {
     this.alive = true;
   }
 
+  /**
+   * Checks if the given board cell is an empty space
+   * @param {Number} row
+   * @param {Number} col
+   */
   boardCellIsEmpty(row, col) {
-    if (!this.board[row][col] && Number(this.board[row][col]) !== 0)
+    if (this.board[row][col] === -1) return true;
+    else return false;
+  }
+
+  /**
+   * Checks if cell at the given row and column is a reference (index of the ship in the ship array) to a ship (numbers >= 0)
+   * @param {Number} row
+   * @param {Number} col
+   */
+  boardCellContainsShip(row, col) {
+    if (
+      typeof this.board[row][col] === 'number' &&
+      Number(this.board[row][col]) >= 0
+    )
       return true;
     else return false;
   }
 
-  boardCellContainsShip(row, col) {
-    if (typeof this.board[row][col] === 'number') return true;
-    else return false;
-  }
-
+  /**
+   * This method places a reference to a ship on the board, so that we can keep track of which ship got hit.
+   * @param {String} ship
+   */
   placeShipOnBoard(ship) {
     // the only allowed ship size are 2 and 3
     if (ship.length < 2 || ship.length > 3)
@@ -123,6 +144,10 @@ class Player {
     }
   }
 
+  /**
+   * This method places a shot from the opponent on the player's board. It checks whether it hit a ship and responds accordingly.
+   * @param {String} shot
+   */
   placeShotOnBoard(shot) {
     const shotCoords = splitCellCoordinates(shot);
     if (
@@ -165,6 +190,9 @@ class Player {
     }
   }
 
+  /**
+   * This method is used to print the board in its entirety
+   */
   printBoard() {
     console.log('   A B C D E F G H I J');
     for (let i = 0; i < this.board.length; i++) {
@@ -176,6 +204,10 @@ class Player {
     }
   }
 
+  /**
+   * This method prints the players board but hides the ships positions.
+   * This is used to show the other player where they have shot, hit and missed.
+   */
   printBoardHideShips() {
     console.log('   A B C D E F G H I J');
     for (let i = 0; i < this.board.length; i++) {
