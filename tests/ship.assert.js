@@ -65,3 +65,32 @@ describe('Swap coordinates', () => {
     expect(s1.startCell).toBe('C3');
   });
 });
+
+describe('Take damage', () => {
+  it('should increment damage counter', () => {
+    let s1 = new Ship('C5 C3');
+    s1.takeDamage();
+
+    expect(s1.damage).toBe(1);
+  });
+});
+
+describe('Health status', () => {
+  it('should show alive', () => {
+    let s1 = new Ship('C5 C3');
+    s1.takeDamage();
+
+    expect(s1.stillAlive()).toBe(true);
+  });
+});
+
+describe('Health status', () => {
+  it('should show dead', () => {
+    let s1 = new Ship('C5 C3');
+    s1.takeDamage();
+    s1.takeDamage();
+    s1.takeDamage();
+
+    expect(s1.stillAlive()).toBe(false);
+  });
+});

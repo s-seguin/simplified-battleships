@@ -485,3 +485,323 @@ describe('Place ship on board', () => {
     }).toThrowError(new Error('Ship must be placed on the board'));
   });
 });
+
+describe('Place shot on board', () => {
+  it('should throw an error if we try and place shot outside of board (max range col)', () => {
+    expect(() => {
+      let player = new Player('test');
+      player.placeShotOnBoard('K1');
+    }).toThrowError(new Error('Shot must be placed on board.'));
+  });
+});
+
+describe('Place shot on board', () => {
+  it('should throw an error if we try and place shot outside of board (min range row)', () => {
+    expect(() => {
+      let player = new Player('test');
+      player.placeShotOnBoard('A0');
+    }).toThrowError(new Error('Shot must be placed on board.'));
+  });
+});
+
+describe('Place shot on board', () => {
+  it('should throw an error if we try and place shot outside of board (max range row)', () => {
+    expect(() => {
+      let player = new Player('test');
+      player.placeShotOnBoard('A11');
+    }).toThrowError(new Error('Shot must be placed on board.'));
+  });
+});
+
+describe('Place shot on board', () => {
+  it('should mark it as a miss', () => {
+    let ship1 = new Ship('J8 J10');
+    let player = new Player('test');
+    player.placeShipOnBoard(ship1);
+    player.placeShotOnBoard('A1');
+
+    expect(JSON.stringify(player.board)).toBe(
+      JSON.stringify([
+        [
+          'X',
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          0,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          0,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          0,
+        ],
+      ])
+    );
+  });
+});
+
+describe('Place shot on board', () => {
+  it('should mark it as a hit', () => {
+    let ship1 = new Ship('J8 J10');
+    let player = new Player('test');
+    player.placeShipOnBoard(ship1);
+    player.placeShotOnBoard('J8');
+
+    expect(JSON.stringify(player.board)).toBe(
+      JSON.stringify([
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          'H',
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          0,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          0,
+        ],
+      ])
+    );
+  });
+});
+
+describe('Update alive status', () => {
+  it('should mark player as dead after last ship is sunk', () => {
+    let ship1 = new Ship('J8 J10');
+    let player = new Player('test');
+    player.placeShipOnBoard(ship1);
+    player.placeShotOnBoard('J8');
+    player.placeShotOnBoard('J9');
+    player.placeShotOnBoard('J10');
+
+    expect(player.alive).toBe(false);
+  });
+});
+
+describe('Update alive status', () => {
+  it('should mark player as dead after last ship is sunk', () => {
+    let ship1 = new Ship('J8 J10');
+    let player = new Player('test');
+    player.placeShipOnBoard(ship1);
+    player.placeShotOnBoard('J8');
+    player.placeShotOnBoard('J10');
+
+    expect(player.alive).toBe(true);
+  });
+});

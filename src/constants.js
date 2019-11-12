@@ -13,6 +13,3 @@ export const COLUMN_MAPPING = {
   I: 9,
   J: 10,
 };
-
-export const SUNK = 0;
-export const FLOATING = 1;

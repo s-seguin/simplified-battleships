@@ -2,8 +2,8 @@ import { COLUMN_MAPPING } from '../constants';
 import { splitCellCoordinates } from '../helpers';
 /**
  * Calculate the health of the ship, aka the length of the ship from its start and end coordinates.
- * @param {*} start the start coordinate of the ship
- * @param {*} end the end coordinate of the ship
+ * @param {String} start the start coordinate of the ship
+ * @param {String} end the end coordinate of the ship
  */
 const calcLengthFromCoordinates = (start, end) => {
   const startCoordinates = splitCellCoordinates(start);

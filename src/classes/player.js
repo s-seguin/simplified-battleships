@@ -10,6 +10,10 @@ const instantiateBoard = () => {
   return board;
 };
 
+/**
+ * Given a cell on the board return the value we want to display to the console
+ * @param {*} cell
+ */
 const getCellRepresentation = cell => {
   if (!cell && cell !== 0) return '-';
   else if (typeof cell === 'number') return 'S';
@@ -160,6 +164,7 @@ class Player {
       console.log('What are you doing? You already shot there...');
     }
   }
+
   printBoard() {
     console.log('   A B C D E F G H I J');
     for (let i = 0; i < this.board.length; i++) {
