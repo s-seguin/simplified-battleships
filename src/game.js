@@ -1,5 +1,6 @@
 import readline from 'readline';
 import Player from './classes/player';
+import Ship from './classes/ship';
 
 // Set up readline to get console input
 const rl = readline.createInterface({
@@ -26,7 +27,7 @@ const promptUser = prompt => {
 const askName = player => promptUser(`${player}, enter your name: `); // TODO: add error checking
 
 const askForShipPlacement = name =>
-  promptUser(`${name}, enter the coordinates for your ship (format A2 A5): `); // TODO: add error checking
+  promptUser(`${name}, enter the coordinates for your ship (format A2 A4): `); // TODO: add error checking
 
 const startGame = async () => {
   console.log('Welcome to simplified Battleships!');
@@ -34,7 +35,18 @@ const startGame = async () => {
   let player1 = new Player(await askName('Player 1'));
   let player2 = new Player(await askName('Player 2'));
 
-  console.log(await askForShipPlacement(player1.name));
+  let p1Ship1 = new Ship(await askForShipPlacement(player1.name));
+  if (p1Ship1.length === 2 || p1Ship1.length === 3) {
+    player1.placeShipOnBoard(p1Ship1);
+    player1.printBoard();
+    player1.placeShipOnBoard(new Ship(await askForShipPlacement(player1.name)));
+    player1.printBoard();
+  } else {
+    console.log(
+      `One of your ships can have a length of 2, the other can have a length of 3.`
+    );
+  }
+
   rl.close();
 };
 
