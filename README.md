@@ -5,15 +5,15 @@ Stuart Seguin's submission for Ambyint's full stack coding challenge.
 I implemented the Simple Battleships Challenge, including the bonus features. Each player choses a name and then places two ships on the board. The players then take turns trying to guess where their opponents ships are and sink them. First player to sink both of the opponents ships wins.
 
 Game Board tiles:
-`-` : empty cell
-`S` : occupied by a ship
-`H` : marks a hit ship
-`X` : marks a missed shot
+• `-` : empty cell
+• `S` : occupied by a ship
+• `H` : marks a hit ship
+• `X` : marks a missed shot
 
 ## How to Play
 
 1. Install Node (tested with 12.13.0), or use NVM and `nvm use'
-2. `npm start` to start the game
+2. `npm start` or `node start.js` to start the game
 3. `npm test` to run unit tests
 
 ## Challenges
