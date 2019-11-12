@@ -13,8 +13,10 @@ Game Board tiles:
 ## How to Play
 
 1. Install Node (tested with 12.13.0), or use NVM and `nvm use'
-2. `npm start` or `node start.js` to start the game
-3. `npm test` to run unit tests
+2. Clone this repo
+3. `npm i`
+4. `npm start` or `node start.js` to start the game
+5. `npm test` to run unit tests
 
 ## Challenges
 
