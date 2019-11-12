@@ -23,15 +23,56 @@ const calcLengthFromCoordinates = (start, end) => {
     throw new Error('The ship has not been placed horizontally or vertically');
 };
 
+const swapStartAndEndCells = (start, end) => {
+  let c = start;
+  start = end;
+  end = c;
+
+  return [start, end];
+};
+
+/**
+ * Make sure the small well is the start cell and the bigger cell if the end cell
+ * @param {*} start
+ * @param {*} end
+ */
+const arrangeCellCoordinates = (start, end) => {
+  const startCoordinates = splitCellCoordinates(start);
+  const endCoordinates = splitCellCoordinates(end);
+
+  if (startCoordinates.row === endCoordinates.row) {
+    if (startCoordinates.col > endCoordinates.col)
+      return swapStartAndEndCells(start, end);
+  } else if (startCoordinates.col === endCoordinates.col) {
+    if (Number(startCoordinates.row) > Number(endCoordinates.row))
+      return swapStartAndEndCells(start, end);
+  }
+  return [start, end];
+};
+
 class Ship {
   constructor(coordinates) {
     let splitCoordinates = coordinates.split(' ');
 
-    // TODO: make the start cell the smaller cell and end cell the larger one
-    this.startCell = splitCoordinates[0];
-    this.endCell = splitCoordinates[1];
+    // make sure start cell < end cell
+    let arrangedCoords = arrangeCellCoordinates(
+      splitCoordinates[0],
+      splitCoordinates[1]
+    );
+
+    this.startCell = arrangedCoords[0];
+    this.endCell = arrangedCoords[1];
     this.length = calcLengthFromCoordinates(this.startCell, this.endCell);
     this.damage = 0;
+  }
+
+  takeDamage() {
+    this.damage++;
+  }
+
+  stillAlive() {
+    if (this.damage >= this.length) return false;
+    else return true;
   }
 }
 

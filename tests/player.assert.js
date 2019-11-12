@@ -15,9 +15,9 @@ describe('Place ship on board', () => {
     expect(JSON.stringify(player.board)).toBe(
       JSON.stringify([
         [
-          'S',
-          'S',
-          'S',
+          0,
+          0,
+          0,
           undefined,
           undefined,
           undefined,
@@ -240,7 +240,7 @@ describe('Place ship on board', () => {
           undefined,
           undefined,
           undefined,
-          'S',
+          0,
         ],
         [
           undefined,
@@ -252,7 +252,7 @@ describe('Place ship on board', () => {
           undefined,
           undefined,
           undefined,
-          'S',
+          0,
         ],
         [
           undefined,
@@ -264,7 +264,142 @@ describe('Place ship on board', () => {
           undefined,
           undefined,
           undefined,
-          'S',
+          0,
+        ],
+      ])
+    );
+  });
+});
+
+describe('Place 2 ships on board', () => {
+  it('should add valid ship indexes to board', () => {
+    let ship1 = new Ship('A1 C1');
+    let ship2 = new Ship('A2 B2');
+
+    let player = new Player('test');
+    player.placeShipOnBoard(ship1);
+    player.placeShipOnBoard(ship2);
+    expect(JSON.stringify(player.board)).toBe(
+      JSON.stringify([
+        [
+          0,
+          0,
+          0,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          1,
+          1,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ],
+        [
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
         ],
       ])
     );

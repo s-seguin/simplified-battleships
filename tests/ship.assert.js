@@ -33,3 +33,35 @@ describe('Calculate invalid ship health', () => {
     );
   });
 });
+
+describe('Swap coordinates', () => {
+  it('should return the same coordinates', () => {
+    let s1 = new Ship('J8 J10');
+
+    expect(s1.startCell).toBe('J8');
+  });
+});
+
+describe('Swap coordinates', () => {
+  it('should return swapped coordinates', () => {
+    let s1 = new Ship('J10 J8');
+
+    expect(s1.startCell).toBe('J8');
+  });
+});
+
+describe('Swap coordinates', () => {
+  it('should return swapped coordinates', () => {
+    let s1 = new Ship('C1 A1');
+
+    expect(s1.startCell).toBe('A1');
+  });
+});
+
+describe('Swap coordinates', () => {
+  it('should return swapped coordinates', () => {
+    let s1 = new Ship('C5 C3');
+
+    expect(s1.startCell).toBe('C3');
+  });
+});

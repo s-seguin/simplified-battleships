@@ -10,13 +10,11 @@ const instantiateBoard = () => {
   return board;
 };
 
-const getCellRepresentation = cell =>
-  ({
-    null: '-',
-    undefined: '-',
-    X: 'X',
-    S: 'S',
-  }[cell] || '-');
+const getCellRepresentation = cell => {
+  if (!cell && cell !== 0) return '-';
+  else if (typeof cell === 'number') return 'S';
+  else return cell;
+};
 
 class Player {
   constructor(name) {
@@ -24,11 +22,18 @@ class Player {
     this.hasShipsRemaining = true;
     this.board = instantiateBoard();
     this.ships = [];
+    this.alive = true;
   }
 
   boardCellIsEmpty(row, col) {
-    if (this.board[row][col]) return false;
-    else return true;
+    if (!this.board[row][col] && Number(this.board[row][col]) !== 0)
+      return true;
+    else return false;
+  }
+
+  boardCellContainsShip(row, col) {
+    if (typeof this.board[row][col] === 'number') return true;
+    else return false;
   }
 
   placeShipOnBoard(ship) {
@@ -53,7 +58,9 @@ class Player {
 
     if (
       startCoords.row <= 0 || // row corresponds to the row entered by the player indexed at 1
-      startCoords.row >= this.board.length ||
+      startCoords.row > this.board.length ||
+      endCoords.row <= 0 || // row corresponds to the row entered by the player indexed at 1
+      endCoords.row > this.board.length ||
       !COLUMN_MAPPING[endCoords.col]
     )
       throw new Error('Ship must be placed on the board');
@@ -73,9 +80,17 @@ class Player {
     )
       throw new Error('Cannot place ship there. That space is occupied.');
 
+    // add the ship to our array of ships
+    this.ships.push(ship);
+    const shipIndex = this.ships.length - 1;
+
     // the cells were empty so place the ship
-    this.board[startCoords.row - 1][COLUMN_MAPPING[startCoords.col] - 1] = 'S';
-    this.board[endCoords.row - 1][COLUMN_MAPPING[endCoords.col] - 1] = 'S';
+    this.board[startCoords.row - 1][
+      COLUMN_MAPPING[startCoords.col] - 1
+    ] = shipIndex;
+    this.board[endCoords.row - 1][
+      COLUMN_MAPPING[endCoords.col] - 1
+    ] = shipIndex;
 
     // if the ship has a middle cell
     if (ship.length > 2) {
@@ -85,7 +100,7 @@ class Player {
           if (!this.boardCellIsEmpty(i, COLUMN_MAPPING[startCoords.col] - 1))
             throw new Error('Cannot place ship there. That space is occupied.');
           // otherwise place the ship there
-          else this.board[i][COLUMN_MAPPING[startCoords.col] - 1] = 'S';
+          else this.board[i][COLUMN_MAPPING[startCoords.col] - 1] = shipIndex;
         }
       }
       // if the ship is horizontal
@@ -98,21 +113,71 @@ class Player {
           if (!this.boardCellIsEmpty(startCoords.row - 1, i))
             throw new Error('Cannot place ship there. That space is occupied.');
           // otherwise place the ship there
-          else this.board[startCoords.row - 1][i] = 'S';
+          else this.board[startCoords.row - 1][i] = shipIndex;
         }
       }
     }
-
-    // add the ship to our array of ships
-    this.ships.push(ship);
   }
 
+  placeShotOnBoard(shot) {
+    const shotCoords = splitCellCoordinates(shot);
+    if (
+      shotCoords.row <= 0 || // row corresponds to the row entered by the player indexed at 1
+      shotCoords.row > this.board.length ||
+      !COLUMN_MAPPING[shotCoords.col]
+    )
+      throw new Error('Shot must be placed on board.');
+
+    if (
+      this.boardCellContainsShip(
+        shotCoords.row - 1,
+        COLUMN_MAPPING[shotCoords.col] - 1
+      )
+    ) {
+      console.log('HIT!');
+      const shipIndex = this.board[shotCoords.row - 1][
+        COLUMN_MAPPING[shotCoords.col] - 1
+      ];
+
+      this.ships[shipIndex].takeDamage();
+      if (!this.ships[shipIndex].stillAlive()) console.log('SHIP SUNK!');
+
+      // check if all our ships have sunken
+      this.alive = this.ships
+        .map(s => s.stillAlive())
+        .reduce((prev, cur) => prev || cur);
+
+      this.board[shotCoords.row - 1][COLUMN_MAPPING[shotCoords.col] - 1] = 'H';
+    } else if (
+      this.boardCellIsEmpty(
+        shotCoords.row - 1,
+        COLUMN_MAPPING[shotCoords.col] - 1
+      )
+    ) {
+      console.log('MISS!');
+      this.board[shotCoords.row - 1][COLUMN_MAPPING[shotCoords.col] - 1] = 'X';
+    } else {
+      console.log('What are you doing? You already shot there...');
+    }
+  }
   printBoard() {
     console.log('   A B C D E F G H I J');
     for (let i = 0; i < this.board.length; i++) {
       let rowStr = i + 1 < 10 ? `${i + 1}  ` : `${i + 1} `;
       for (let j = 0; j < this.board[i].length; j++) {
         rowStr += `${getCellRepresentation(this.board[i][j])} `;
+      }
+      console.log(rowStr);
+    }
+  }
+
+  printBoardHideShips() {
+    console.log('   A B C D E F G H I J');
+    for (let i = 0; i < this.board.length; i++) {
+      let rowStr = i + 1 < 10 ? `${i + 1}  ` : `${i + 1} `;
+      for (let j = 0; j < this.board[i].length; j++) {
+        let cell = getCellRepresentation(this.board[i][j]);
+        rowStr += `${cell === 'S' ? '-' : cell} `;
       }
       console.log(rowStr);
     }
